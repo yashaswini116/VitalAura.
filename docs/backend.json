@@ -1,0 +1,100 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Comprehensive health and personal profile of the user.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "dob": { "type": "string", "format": "date" },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"] },
+        "photoURL": { "type": "string" },
+        "heightCm": { "type": "number" },
+        "weightKg": { "type": "number" },
+        "bloodGroup": { "type": "string" },
+        "allergies": { "type": "array", "items": { "type": "string" } },
+        "chronicConditions": { "type": "array", "items": { "type": "string" } },
+        "currentMedications": { "type": "string" },
+        "emergencyNotes": { "type": "string" },
+        "goals": { "type": "array", "items": { "type": "string" } },
+        "activityLevel": { "type": "string" },
+        "doshaType": { "type": "string" },
+        "waterGoal": { "type": "number" },
+        "stepGoal": { "type": "number" }
+      },
+      "required": ["name", "gender", "heightCm", "weightKg"]
+    },
+    "HealthData": {
+      "title": "Health Data",
+      "description": "Daily metrics synced from wearables or entered manually.",
+      "type": "object",
+      "properties": {
+        "steps": { "type": "number" },
+        "heartRate": { "type": "number" },
+        "spo2": { "type": "number" },
+        "calories": { "type": "number" },
+        "sleepHours": { "type": "number" },
+        "stressLevel": { "type": "number" },
+        "activeMinutes": { "type": "number" },
+        "hydration": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Medication": {
+      "title": "Medication",
+      "description": "Medication schedule and reminders.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "dosage": { "type": "string" },
+        "frequency": { "type": "string" },
+        "times": { "type": "array", "items": { "type": "string" } },
+        "takenToday": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "PeriodStats": {
+      "title": "Period Stats",
+      "type": "object",
+      "properties": {
+        "lastPeriodStart": { "type": "string", "format": "date" },
+        "avgCycle": { "type": "number" }
+      }
+    },
+    "LabReport": {
+      "title": "Lab Report",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "analysis": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password", "phone"]
+  },
+  "firestore": {
+    "/users/{uid}/profile": {
+      "schema": "UserProfile",
+      "description": "User personal and medical profile."
+    },
+    "/users/{uid}/healthData/{date}": {
+      "schema": "HealthData",
+      "description": "Daily health metrics."
+    },
+    "/users/{uid}/medications/{medicationId}": {
+      "schema": "Medication",
+      "description": "User medications."
+    },
+    "/users/{uid}/periodTracker/stats": {
+      "schema": "PeriodStats",
+      "description": "Period tracking overview."
+    },
+    "/users/{uid}/labReports/{reportId}": {
+      "schema": "LabReport",
+      "description": "Analyzed lab reports."
+    }
+  }
+}
